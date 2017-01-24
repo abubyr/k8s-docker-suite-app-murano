@@ -2,10 +2,19 @@
 
 set -eu
 
-install-packages curl
-curl -sSL https://get.docker.com/ | sh
+ARCH=$(uname -m)
+
+if [[ "${ARCH}" =~ ppc64 ]]; then
+    echo "${DOCKER_PPC64LE_REPO_URL:-deb http://ftp.unicamp.br/pub/ppc64el/ubuntu/16_04/docker-1.12.0-ppc64el/ xenial main}" > /etc/apt/sources.list.d/docker.list
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --allow-unauthenticated docker-engine
+else
+    install-packages curl
+    curl -sSL https://get.docker.com/ | sh
+fi
 
 echo 'DOCKER_OPTS="--bip=172.31.0.1/16 --fixed-cidr=172.31.0.0/16 --mtu=1450"' >> /etc/default/docker
+
 if [[ $(lsb_release -c -s) == 'jessie' ]]; then
  # On debian docker ignores /etc/default/docker file
  # Modifying docker.service to add reference to config file
