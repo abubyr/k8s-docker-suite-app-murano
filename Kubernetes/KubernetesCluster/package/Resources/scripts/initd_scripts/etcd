@@ -25,6 +25,8 @@ ETCD_PIDFILE=/var/run/$BASE.pid
 ETCD_LOGFILE=/var/log/$BASE.log
 ETCD_OPTS=""
 ETCD_DESC="Etcd"
+# allow to execute on unsupported ppc64le arch
+export ETCD_UNSUPPORTED_ARCH=ppc64le
 
 # Get lsb functions
 . /lib/lsb/init-functions

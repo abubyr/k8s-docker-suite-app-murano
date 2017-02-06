@@ -4,6 +4,7 @@ Documentation=https://github.com/coreos/etcd
 
 [Service]
 Type=notify
+Environment=ETCD_UNSUPPORTED_ARCH=ppc64le
 Environment=ETCD_DATA_DIR=/var/lib/etcd
 EnvironmentFile=-/etc/default/etcd
 ExecStart=/opt/bin/etcd \
