@@ -19,13 +19,17 @@ case $ARCH in
 esac
 
 GOLANG_DOWNLOAD_VERSION="1.6.4"
-ETCD_LATEST_VERSION="v3.0.4"
-KUBE_LATEST_VERSION="v1.3.0"
+ETCD_LATEST_VERSION="v3.0.14"
+#KUBE_LATEST_VERSION="v1.3.0"
+KUBE_LATEST_VERSION="v1.6.0-alpha.1"
 FLANNEL_LATEST_VERSION="v0.5.5"
-CONFD_LATEST_VERSION="v0.7.1"
+#CONFD_LATEST_VERSION="v0.7.1"
+CONFD_LATEST_VERSION="v0.12.1"
+CONFD_GIT_REPO="bacongobbler"
 
 ETCD_LATEST_URL="https://github.com/coreos/etcd/releases/download/${ETCD_LATEST_VERSION}/etcd-${ETCD_LATEST_VERSION}-linux-amd64.tar.gz"
-KUBE_LATEST_URL="https://github.com/GoogleCloudPlatform/kubernetes/releases/download/${KUBE_LATEST_VERSION}/kubernetes.tar.gz"
+#KUBE_LATEST_URL="https://github.com/GoogleCloudPlatform/kubernetes/releases/download/${KUBE_LATEST_VERSION}/kubernetes.tar.gz"
+KUBE_LATEST_URL="https://dl.k8s.io/${KUBE_LATEST_VERSION}/kubernetes-server-linux-ppc64le.tar.gz"
 FLANNEL_LATEST_URL="https://github.com/coreos/flannel/archive/${FLANNEL_LATEST_VERSION}.tar.gz"
 
 mkdir -p ${SVC_ROOT}
@@ -66,7 +70,7 @@ wget -O ${SVC_ROOT}/kubernetes-latest.tar.gz $KUBE_LATEST_URL
 tar xzvf ${SVC_ROOT}/kubernetes-latest.tar.gz
 rm -f ${SVC_ROOT}/kubernetes-latest.tar.gz
 
-tar xzvf ${SVC_ROOT}/kubernetes/server/kubernetes-server-linux-${ARCH}.tar.gz
+#tar xzvf ${SVC_ROOT}/kubernetes/server/kubernetes-server-linux-${ARCH}.tar.gz
 mv ${SVC_ROOT}/kubernetes ${SVC_ROOT}/kubernetes-latest
 
 cp ${SVC_ROOT}/kubernetes-latest/server/bin/* ${SVC_ROOT}/
@@ -98,7 +102,7 @@ else
     # Install godep utility
     GOPATH=${SVC_ROOT} go get github.com/tools/godep
 
-    git clone -b ${CONFD_LATEST_VERSION} https://github.com/kelseyhightower/confd.git ${SVC_ROOT}/src/github.com/kelseyhightower/confd
+    git clone -b ${CONFD_LATEST_VERSION} https://github.com/${CONFD_GIT_REPO}/confd.git ${SVC_ROOT}/src/github.com/kelseyhightower/confd
     pushd ${SVC_ROOT}/src/github.com/kelseyhightower/confd
     # Build confd
     # WARNING: Method is appicable for confd v0.6.x-v0.7.x

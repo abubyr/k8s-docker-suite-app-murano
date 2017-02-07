@@ -5,7 +5,7 @@ Requires=etcd.service
 [Service]
 Restart=always
 ExecStart=/usr/local/bin/confd \
- -backend etcd \
+ -backend etcdv3 \
  -node %%MASTER_NODE%%:4001 \
  -interval 15
 
